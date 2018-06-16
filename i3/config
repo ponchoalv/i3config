@@ -58,7 +58,7 @@ bindsym $mod+Right focus right
 
 # move focused window
 bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
+# bindsym $mod+Shift+k move down
 bindsym $mod+Shift+l move up
 bindsym $mod+Shift+ntilde move right
 
@@ -202,9 +202,16 @@ client.urgent     	#2F343A #900000 #FFFFFF
 
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle # mute sound
+
+# Hdmi Audio
+bindsym $mod+Shift+b exec --no-startup-id pactl set-card-profile 0 output:hdmi-stereo #switch to hdmi audio
+bindsym $mod+b exec --no-startup-id pactl set-card-profile 0 output:analog-stereo #switch to laptop speakerb audio
+
+# Hdmi Video
+bindsym $mod+Shift+k exec --no-startup-id /home/poncho/.config/i3/togglescreenmode.sh
 
 # Sreen brightness controls
 # bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
