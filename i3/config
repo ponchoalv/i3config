@@ -30,8 +30,8 @@ font pango:Hack 8
 floating_modifier $mod
 
 # start a terminal
-#bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Ctrl+Return exec i3-sensible-terminal
+bindsym $mod+Return exec --no-startup-id gnome-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -89,13 +89,20 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # lock screen
-bindsym $mod+l exec xlock
+# bindsym $mod+l exec xlock
+bindsym $mod+l exec --no-startup-id i3lock && dbus-launch gdmflexiserver -xnest
+# bindsym $mod+l exec --no-startup-id dbus-launch gdmflexiserver -xnest
+
+
 
 # focus the parent container
 bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
+
+# screenshot
+bindsym Print exec --no-startup-id gnome-screenshot
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -171,9 +178,10 @@ bindsym $mod+r mode "resize"
 # the dynamic status bar
 bar {
         status_command ~/.config/i3/statusbar.sh
-	# font pango: DejaVu Sans Mono, Icons 8
+	# font pango: Hack 8
         font pango: System San Francisco Display 8
-        
+        # tray_output primary
+        # status_command i3status
 colors {
 	separator #268bd2
     	background #1e1e1e
@@ -185,11 +193,22 @@ colors {
   }
 }
 
-exec --no-startup-id nm-applet
 exec --no-startup-id feh --bg-fill ~/Imágenes/Wallpapers/20170821_111146.jpg
-# mute beep
-exec xset -b
 
+# mute beep
+exec --no-startup-id xset -b
+
+# composite
+exec --no-startup-id compton --config /home/poncho/.config/i3/compton.conf -CGb 
+
+# i3-gnome
+exec --no-startup-id /usr/lib/gnome-settings-daemon-3.0/gsd-xsettings
+# exec_always --no-startup-id gnome-power-manager
+exec --no-startup-id sr/lib/polkit-gnome-authentication-agent-1
+# exec --no-startup-id /usr/bin/gnome-session --session gnome-classic
+exec_always --no-startup-id nm-applet
+
+# env GNOME_SHELL_SESSION_MODE=classic gnome-session --session gnome-classic
 
 #borders
 for_window [class="^.*"] border pixel 3
@@ -218,18 +237,17 @@ bindsym $mod+Shift+k exec --no-startup-id /home/poncho/.config/i3/togglescreenmo
 # bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
 # Brightness
-bindsym XF86MonBrightnessDown exec sudo /home/poncho/.config/i3/.bin/brightness - 100
-bindsym XF86MonBrightnessUp exec sudo /home/poncho/.config/i3/.bin/brightness + 100
-
+bindsym XF86MonBrightnessDown exec --no-startup-id sudo /home/poncho/.config/i3/.bin/brightness - 100
+bindsym XF86MonBrightnessUp exec --no-startup-id sudo /home/poncho/.config/i3/.bin/brightness + 100
 
 # Touchpad controls
-bindsym XF86TouchpadToggle exec /home/poncho/.config/i3/toggletouchpad.sh # toggle touchpad
+bindsym XF86TouchpadToggle exec --no-startup-id /home/poncho/.config/i3/toggletouchpad.sh # toggle touchpad
 
 # Media player controls
-bindsym XF86AudioPlay exec playerctl play
-bindsym XF86AudioPause exec playerctl pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPlay exec --no-startup-id playerctl play
+bindsym XF86AudioPause exec --no-startup-id playerctl pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
